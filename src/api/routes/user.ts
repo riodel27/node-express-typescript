@@ -1,14 +1,12 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { Router } from "express";
 import { celebrate as validate, Joi } from "celebrate";
 
-import UserController from "../../controllers/user";
+import UserController from "../controllers/user";
 
 const route = Router();
 
 export default (app: Router) => {
   app.use("/user", route);
-
-  route.get("/", UserController.getUser);
 
   route.post(
     "/",
@@ -22,10 +20,11 @@ export default (app: Router) => {
     UserController.createUser
   );
 
-  // this will update the user via id
-  route.put("/", (_: Request, res: Response, __: NextFunction) => {
-    return res.json({ data: { name: "update user" } });
-  });
-
+  route.get("/:id", UserController.getUserById);
   route.put("/:id", UserController.updateUser);
+  route.delete("/:id", UserController.deleteUser);
+
+  app.use("/users", route); /* api/users */
+
+  route.get("/", UserController.list);
 };

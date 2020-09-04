@@ -27,22 +27,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
 const argon2_1 = __importDefault(require("argon2"));
 const crypto_1 = require("crypto");
+const ramda_1 = require("ramda");
 let UserService = class UserService {
     constructor(user, logger) {
         this.user = user;
         this.logger = logger;
     }
-    GetUser(id) {
+    FindOneUser(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.user.findOne({ _id: id });
-                return {
-                    _id: "string",
-                    name: "string",
-                    email: "string",
-                    password: "string",
-                    salt: "string",
-                };
+                const user = yield this.user.findOne(query);
+                if (ramda_1.not(user))
+                    throw new Error("user not found");
+                return user;
             }
             catch (e) {
                 this.logger.error(e);
@@ -68,12 +65,20 @@ let UserService = class UserService {
                     salt: salt.toString("hex"),
                     password: hashPassword,
                 })), { new: true });
+                if (ramda_1.not(user))
+                    throw new Error("Unknown user");
                 return user;
             }
             catch (e) {
                 this.logger.error(e);
                 throw e;
             }
+        });
+    }
+    DeleteOneUser(filter) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield this.user.deleteOne(filter);
+            return user;
         });
     }
 };

@@ -1,8 +1,9 @@
 import { Service, Inject } from "typedi";
 import argon2 from "argon2";
 
-import { IUser, IUserInputDTO } from "../interfaces/IUser";
+import { IUser, IUserInputDTO as IUserInput } from "../interfaces/IUser";
 import { randomBytes } from "crypto";
+import { not } from "ramda";
 
 @Service()
 export default class UserService {
@@ -11,30 +12,20 @@ export default class UserService {
     @Inject("logger") private logger: any
   ) {}
 
-  public async GetUser(id: String): Promise<IUser> {
+  public async FindOneUser(query: { _id: string }): Promise<IUser> {
     try {
-      await this.user.findOne({ _id: id });
+      const user = await this.user.findOne(query);
 
-      return {
-        _id: "string",
-        name: "string",
-        email: "string",
-        password: "string",
-        salt: "string",
-      };
+      if (not(user)) throw new Error("user not found");
+
+      return user;
     } catch (e) {
-      /**
-       * @TODO: how to handle database error like duplicate key. ex. email uniqueness
-       */
       this.logger.error(e);
       throw e;
     }
   }
 
-  public async UpdateUser(
-    id: String,
-    userInput: IUserInputDTO
-  ): Promise<IUser> {
+  public async UpdateUser(id: string, userInput: IUserInput): Promise<IUser> {
     try {
       if (userInput.email) {
         const existingUserEmail = await this.user.findOne({
@@ -64,13 +55,18 @@ export default class UserService {
         { new: true }
       );
 
+      //TODO: custom error
+      if (not(user)) throw new Error("Unknown user");
+
       return user;
     } catch (e) {
-      /**
-       * @TODO: how to handle database error like duplicate key. ex. email uniqueness
-       */
       this.logger.error(e);
       throw e;
     }
+  }
+
+  public async DeleteOneUser(filter: { _id: string }): Promise<IUser> {
+    const user = await this.user.deleteOne(filter);
+    return user;
   }
 }

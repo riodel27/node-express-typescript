@@ -32,8 +32,32 @@ exports.default = {
             return next(error);
         }
     }),
-    getUser: (_, res, __) => __awaiter(void 0, void 0, void 0, function* () {
-        return res.json({ data: { name: "it's me" } });
+    getUserById: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+        const logger = typedi_1.Container.get("logger");
+        logger.debug("calling get user  by id endpoint");
+        try {
+            const { id } = req.params;
+            const userServiceInstance = typedi_1.Container.get(user_1.default);
+            const user = yield userServiceInstance.FindOneUser({ _id: id });
+            logger.info(`${req.method} ${req.originalUrl} ${200}`);
+            return res.status(200).json({ message: "Ok", data: user });
+        }
+        catch (error) {
+            return next(error);
+        }
+    }),
+    list: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+        const logger = typedi_1.Container.get("logger");
+        logger.debug(`calling get users endpoint`);
+        try {
+            const UserModel = typedi_1.Container.get("userModel");
+            const users = yield UserModel.find();
+            logger.info(`${req.method} ${req.originalUrl} ${202}`);
+            return res.status(202).json({ message: "users", data: users });
+        }
+        catch (error) {
+            return next(error);
+        }
     }),
     updateUser: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const logger = typedi_1.Container.get("logger");
@@ -43,8 +67,22 @@ exports.default = {
             const { body: userInput } = req;
             const userServiceInstance = typedi_1.Container.get(user_1.default);
             const user = yield userServiceInstance.UpdateUser(id, userInput);
-            logger.info(`${req.method} ${req.originalUrl} ${200}`);
-            return res.status(200).json({ message: "User Updated", data: user });
+            logger.info(`${req.method} ${req.originalUrl} ${202}`);
+            return res.status(202).json({ message: "User Updated", data: user });
+        }
+        catch (error) {
+            return next(error);
+        }
+    }),
+    deleteUser: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+        const logger = typedi_1.Container.get("logger");
+        logger.debug(`calling delete user endpoint`);
+        try {
+            const { id } = req.params;
+            const userServiceInstance = typedi_1.Container.get(user_1.default);
+            yield userServiceInstance.DeleteOneUser({ _id: id });
+            logger.info(`${req.method} ${req.originalUrl} ${202}`);
+            return res.status(202).json({ message: "delete successful" });
         }
         catch (error) {
             return next(error);

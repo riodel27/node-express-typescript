@@ -1,4 +1,8 @@
-# Node.js with Typescript architecture boilerplate 🛡️
+# Express-Typescript architecture boilerplate 🛡️
+
+## The Folder Structure
+
+![Alt text](./uploads/readme/folder-structure.png?raw=true "Folder Structure")
 
 ## Development
 
@@ -33,3 +37,5 @@ npm run dev
 It uses nodemon for livereloading
 
 # API Validation
+
+![Alt text](./uploads/readme/api-validation.png?raw=true "api-validation")

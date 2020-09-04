@@ -4,12 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const user_1 = __importDefault(require("./routes/user/user"));
-const users_1 = __importDefault(require("./routes/user/users"));
+const user_1 = __importDefault(require("./routes/user"));
 exports.default = () => {
     const app = express_1.Router();
     user_1.default(app);
-    users_1.default(app);
     app.get("/", (_, res) => res.send("✌️ Welcome to node-express-typescript-boilerplate API! ✌️"));
     return app;
 };
