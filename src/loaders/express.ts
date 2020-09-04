@@ -2,6 +2,8 @@ import { Application, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 
+import { errors } from "celebrate";
+
 import config from "../config";
 import routes from "../api";
 
@@ -12,6 +14,9 @@ export default ({ app }: { app: Application }) => {
 
   // Load API routes
   app.use(config.api.prefix, routes());
+
+  // handle joi validation errors
+  app.use(errors());
 
   /// catch 404 and forward to error handler
   app.use((_, __, next) => {

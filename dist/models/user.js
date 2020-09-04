@@ -16,7 +16,7 @@ const User = new mongoose_1.default.Schema({
         unique: true,
         index: true,
     },
-    password: String,
+    password: { type: String, required: true },
     salt: String,
     role: {
         type: String,

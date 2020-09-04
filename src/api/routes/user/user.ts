@@ -1,11 +1,31 @@
-import { Router, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
+import { celebrate as validate, Joi } from "celebrate";
+
+import UserController from "../../controllers/user";
 
 const route = Router();
 
 export default (app: Router) => {
   app.use("/user", route);
 
-  //TODO: CRUD operations
+  route.get("/", UserController.getUser);
 
-  route.get("/", (_, res: Response) => res.json({ data: { name: "it's me" } }));
+  route.post(
+    "/",
+    validate({
+      body: Joi.object({
+        name: Joi.string().required(),
+        email: Joi.string().required(),
+        password: Joi.string().required(),
+      }),
+    }),
+    UserController.createUser
+  );
+
+  // this will update the user via id
+  route.put("/", (_: Request, res: Response, __: NextFunction) => {
+    return res.json({ data: { name: "update user" } });
+  });
+
+  route.put("/:id", UserController.updateUser);
 };
