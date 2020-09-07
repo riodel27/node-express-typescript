@@ -55,6 +55,25 @@ export default {
       return next(error);
     }
   },
+  login: async (req: Request, res: Response, next: NextFunction) => {
+    const logger: any = Container.get("logger");
+    logger.debug(`calling user login endpoint`);
+    try {
+      const { email, password } = req.body;
+
+      const authServiceInstance = Container.get(AuthService);
+
+      const { user, token } = await authServiceInstance.SignIn(email, password);
+
+      logger.info(`${req.method} ${req.originalUrl} ${200}`);
+      return res.status(200).json({
+        user,
+        token,
+      });
+    } catch (error) {
+      return next(error);
+    }
+  },
   updateUser: async (req: Request, res: Response, next: NextFunction) => {
     const logger: any = Container.get("logger");
     logger.debug(`calling update user endpoint`);

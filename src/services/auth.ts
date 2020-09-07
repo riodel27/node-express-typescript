@@ -1,16 +1,17 @@
+import argon2 from "argon2";
 import { Service, Inject } from "typedi";
 import jwt from "jsonwebtoken";
 import { not } from "ramda";
-
-import config from "../config";
-import argon2 from "argon2";
+import { Model, Document } from "mongoose";
 import { randomBytes } from "crypto";
+
 import { IUser, IUserInputDTO } from "../interfaces/IUser";
+import config from "../config";
 
 @Service()
 export default class AuthService {
   constructor(
-    @Inject("userModel") private user: any,
+    @Inject("userModel") private user: Model<IUser & Document, {}>,
     @Inject("logger") private logger: any
   ) {}
 
@@ -63,19 +64,17 @@ export default class AuthService {
       throw new Error("Incorrect email or password");
     }
 
-    const validPassword = await argon2.verify(userRecord.password, password);
+    const validPassword = await argon2.verify(userRecord!.password, password);
 
-    if (validPassword) {
-      const token = this.generateToken(userRecord);
+    if (not(validPassword)) throw new Error("Incorrect email or password");
 
-      const user = userRecord.toObject();
-      Reflect.deleteProperty(user, "password");
-      Reflect.deleteProperty(user, "salt");
+    const token = this.generateToken(userRecord);
 
-      return { user, token };
-    } else {
-      throw new Error("Incorrect email or password");
-    }
+    const user = userRecord?.toObject();
+    Reflect.deleteProperty(user, "password");
+    Reflect.deleteProperty(user, "salt");
+
+    return { user, token };
   }
 
   private generateToken(user: any) {

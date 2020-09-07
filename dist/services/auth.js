@@ -24,12 +24,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const argon2_1 = __importDefault(require("argon2"));
 const typedi_1 = require("typedi");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const ramda_1 = require("ramda");
-const config_1 = __importDefault(require("../config"));
-const argon2_1 = __importDefault(require("argon2"));
+const mongoose_1 = require("mongoose");
 const crypto_1 = require("crypto");
+const config_1 = __importDefault(require("../config"));
 let AuthService = class AuthService {
     constructor(user, logger) {
         this.user = user;
@@ -63,16 +64,13 @@ let AuthService = class AuthService {
                 throw new Error("Incorrect email or password");
             }
             const validPassword = yield argon2_1.default.verify(userRecord.password, password);
-            if (validPassword) {
-                const token = this.generateToken(userRecord);
-                const user = userRecord.toObject();
-                Reflect.deleteProperty(user, "password");
-                Reflect.deleteProperty(user, "salt");
-                return { user, token };
-            }
-            else {
+            if (ramda_1.not(validPassword))
                 throw new Error("Incorrect email or password");
-            }
+            const token = this.generateToken(userRecord);
+            const user = userRecord === null || userRecord === void 0 ? void 0 : userRecord.toObject();
+            Reflect.deleteProperty(user, "password");
+            Reflect.deleteProperty(user, "salt");
+            return { user, token };
         });
     }
     generateToken(user) {
@@ -91,7 +89,7 @@ AuthService = __decorate([
     typedi_1.Service(),
     __param(0, typedi_1.Inject("userModel")),
     __param(1, typedi_1.Inject("logger")),
-    __metadata("design:paramtypes", [Object, Object])
+    __metadata("design:paramtypes", [mongoose_1.Model, Object])
 ], AuthService);
 exports.default = AuthService;
 //# sourceMappingURL=auth.js.map

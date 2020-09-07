@@ -20,3 +20,5 @@ const startServer = async () => {
 };
 
 startServer();
+
+// TODO: improve over-all error handling and error response

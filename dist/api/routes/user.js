@@ -19,6 +19,7 @@ exports.default = (app) => {
     route.get("/:id", user_1.default.getUserById);
     route.put("/:id", user_1.default.updateUser);
     route.delete("/:id", user_1.default.deleteUser);
+    route.post("/login", user_1.default.login);
     app.use("/users", route);
     route.get("/", user_1.default.list);
 };

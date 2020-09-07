@@ -26,6 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
 const argon2_1 = __importDefault(require("argon2"));
+const mongoose_1 = require("mongoose");
 const crypto_1 = require("crypto");
 const ramda_1 = require("ramda");
 let UserService = class UserService {
@@ -77,8 +78,8 @@ let UserService = class UserService {
     }
     DeleteOneUser(filter) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.user.deleteOne(filter);
-            return user;
+            const response = yield this.user.deleteOne(filter);
+            return response;
         });
     }
 };
@@ -86,7 +87,7 @@ UserService = __decorate([
     typedi_1.Service(),
     __param(0, typedi_1.Inject("userModel")),
     __param(1, typedi_1.Inject("logger")),
-    __metadata("design:paramtypes", [Object, Object])
+    __metadata("design:paramtypes", [mongoose_1.Model, Object])
 ], UserService);
 exports.default = UserService;
 //# sourceMappingURL=user.js.map

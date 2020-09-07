@@ -24,6 +24,8 @@ export default (app: Router) => {
   route.put("/:id", UserController.updateUser);
   route.delete("/:id", UserController.deleteUser);
 
+  route.post("/login", UserController.login);
+
   app.use("/users", route); /* api/users */
 
   route.get("/", UserController.list);

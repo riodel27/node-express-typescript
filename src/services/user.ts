@@ -1,18 +1,20 @@
 import { Service, Inject } from "typedi";
 import argon2 from "argon2";
-
-import { IUser, IUserInputDTO as IUserInput } from "../interfaces/IUser";
+import { Model, Document } from "mongoose";
 import { randomBytes } from "crypto";
 import { not } from "ramda";
+import mongodb from "mongodb";
+
+import { IUser, IUserInputDTO as IUserInput } from "../interfaces/IUser";
 
 @Service()
 export default class UserService {
   constructor(
-    @Inject("userModel") private user: any,
+    @Inject("userModel") private user: Model<IUser & Document, {}>,
     @Inject("logger") private logger: any
   ) {}
 
-  public async FindOneUser(query: { _id: string }): Promise<IUser> {
+  public async FindOneUser(query: { _id: string }): Promise<IUser | null> {
     try {
       const user = await this.user.findOne(query);
 
@@ -25,7 +27,10 @@ export default class UserService {
     }
   }
 
-  public async UpdateUser(id: string, userInput: IUserInput): Promise<IUser> {
+  public async UpdateUser(
+    id: string,
+    userInput: IUserInput
+  ): Promise<IUser | null> {
     try {
       if (userInput.email) {
         const existingUserEmail = await this.user.findOne({
@@ -65,8 +70,12 @@ export default class UserService {
     }
   }
 
-  public async DeleteOneUser(filter: { _id: string }): Promise<IUser> {
-    const user = await this.user.deleteOne(filter);
-    return user;
+  public async DeleteOneUser(filter: {
+    _id: string;
+  }): Promise<
+    mongodb.DeleteWriteOpResultObject["result"] & { deletedCount?: number }
+  > {
+    const response = await this.user.deleteOne(filter);
+    return response;
   }
 }
