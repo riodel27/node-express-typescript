@@ -39,3 +39,13 @@ It uses nodemon for livereloading
 # API Validation
 
 ![Alt text](./uploads/readme/api-validation.png?raw=true "api-validation")
+
+# API Documentation
+
+note: to be improve...
+
+link to view the api documentation via postman.
+
+https://documenter.getpostman.com/view/9925707/TVK5dMZ3
+
+![Alt text](./uploads/readme/api-doc.png?raw=true "api-doc")

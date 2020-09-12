@@ -19,6 +19,7 @@ const attachCurrentUser = async (
     const UserModel = Container.get("userModel") as mongoose.Model<
       IUser & mongoose.Document
     >;
+
     const userRecord = await UserModel.findById(req.token._id);
     if (!userRecord) {
       return res.sendStatus(401);

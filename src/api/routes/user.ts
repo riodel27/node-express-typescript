@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { celebrate as validate, Joi } from "celebrate";
 
+import middleware from "../middlewares";
 import UserController from "../controllers/user";
 
 const route = Router();
@@ -20,13 +21,13 @@ export default (app: Router) => {
     UserController.createUser
   );
 
+  route.use(middleware.isAuth, middleware.attachCurrentUser);
+
   route.get("/:id", UserController.getUserById);
   route.put("/:id", UserController.updateUser);
   route.delete("/:id", UserController.deleteUser);
 
-  route.post("/login", UserController.login);
-
-  app.use("/users", route); /* api/users */
+  app.use("/users", route); /* users */
 
   route.get("/", UserController.list);
 };

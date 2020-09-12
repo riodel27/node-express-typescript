@@ -59,23 +59,6 @@ exports.default = {
             return next(error);
         }
     }),
-    login: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const logger = typedi_1.Container.get("logger");
-        logger.debug(`calling user login endpoint`);
-        try {
-            const { email, password } = req.body;
-            const authServiceInstance = typedi_1.Container.get(auth_1.default);
-            const { user, token } = yield authServiceInstance.SignIn(email, password);
-            logger.info(`${req.method} ${req.originalUrl} ${200}`);
-            return res.status(200).json({
-                user,
-                token,
-            });
-        }
-        catch (error) {
-            return next(error);
-        }
-    }),
     updateUser: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const logger = typedi_1.Container.get("logger");
         logger.debug(`calling update user endpoint`);

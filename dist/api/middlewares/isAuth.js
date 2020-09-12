@@ -17,6 +17,7 @@ const getTokenFromHeader = (req) => {
 const isAuth = express_jwt_1.default({
     secret: config_1.default.jwtSecret,
     userProperty: "token",
+    algorithms: ["HS256"],
     getToken: getTokenFromHeader,
 });
 exports.default = isAuth;
