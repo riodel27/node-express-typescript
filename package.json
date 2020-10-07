@@ -7,7 +7,7 @@
         "watch": "tsc -w",
         "dev": "nodemon dist/app.js",
         "start": "node dist/app.js",
-        "lint": "eslint --fix . --ext ts --ignore-path ./.gitignore --max-warnings=0",
+        "lint": "eslint --fix . --ext ts --ignore-path ./.gitignore",
         "format": "prettier --write './**/*.{ts,css,md,json}' --config ./.prettierrc"
     },
     "husky": {
@@ -16,7 +16,7 @@
         }
     },
     "lint-staged": {
-        "src/**/*.{ts}": "eslint --cache --fix"
+        "src/**/*.{ts}": "eslint --cache --fix . --ext ts --ignore-path ./.gitignore"
     },
     "keywords": [],
     "author": "",
