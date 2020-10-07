@@ -1,13 +1,13 @@
 export interface IUser {
-  _id: string;
-  name: string;
-  email: string;
-  password: string;
-  salt: string;
+    _id: string
+    name: string
+    email: string
+    password: string
+    salt: string
 }
 
 export interface IUserInputDTO {
-  name: string;
-  email: string;
-  password: string;
+    name: string
+    email: string
+    password: string
 }
