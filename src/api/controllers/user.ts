@@ -10,9 +10,9 @@ export default {
         logger.debug('calling create user endpoint with body: ', req.body)
 
         try {
-const authServiceInstance = Container.get(AuthService)
+            const authServiceInstance = Container.get(AuthService)
 
-            const { user } = await authServiceInstance.SignUp(req.body)
+            const { user, token } = await authServiceInstance.SignUp(req.body)
 
             logger.info(`${req.method} ${req.originalUrl} ${201}`)
 
