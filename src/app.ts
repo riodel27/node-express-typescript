@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import 'reflect-metadata' // we need this in order to use @Decorators
 
 import express from 'express'

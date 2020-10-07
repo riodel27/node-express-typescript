@@ -15,6 +15,7 @@ module.exports = {
     rules: {
         'no-var': 'error',
         'no-use-before-define': 'error',
+        'no-undef': 'error',
         '@typescript-eslint/no-var-requires': 0,
         '@typescript-eslint/ban-types': [
             'error',

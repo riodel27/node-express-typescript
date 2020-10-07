@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import dotenv from 'dotenv'
 
 // Set the NODE_ENV to 'development' by default

@@ -2,6 +2,7 @@ import winston from 'winston'
 import config from '../config'
 
 const transports = []
+/* eslint-disable no-undef */
 if (process.env.NODE_ENV !== 'development') {
     transports.push(new winston.transports.Console())
 } else {
