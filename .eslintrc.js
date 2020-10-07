@@ -11,5 +11,9 @@ module.exports = {
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'prettier/@typescript-eslint'
-    ]
+    ],
+    rules: {
+        'no-var': 'error',
+        'no-use-before-define': 'error'
+    }
 }

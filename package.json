@@ -16,7 +16,10 @@
         }
     },
     "lint-staged": {
-        "src/**/*.{ts}": "eslint --cache --fix . --ext ts --ignore-path ./.gitignore"
+        "src/**/*.{js,jsx,ts,tsx,json,css}": [
+            "npm run format",
+            "npm run lint"
+        ]
     },
     "keywords": [],
     "author": "",
