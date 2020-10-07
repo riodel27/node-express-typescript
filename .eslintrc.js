@@ -14,6 +14,16 @@ module.exports = {
     ],
     rules: {
         'no-var': 'error',
-        'no-use-before-define': 'error'
+        'no-use-before-define': 'error',
+        '@typescript-eslint/no-var-requires': 0,
+        '@typescript-eslint/ban-types': [
+            'error',
+            {
+                extendDefaults: true,
+                types: {
+                    '{}': false
+                }
+            }
+        ]
     }
 }
