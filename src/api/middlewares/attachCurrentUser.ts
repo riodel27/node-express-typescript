@@ -1,6 +1,7 @@
-import { Response, NextFunction } from 'express'
-import { Container } from 'typedi'
+import { NextFunction, Response } from 'express'
 import mongoose from 'mongoose'
+import { Container } from 'typedi'
+
 import { IUser } from '../../interfaces/IUser'
 
 /**

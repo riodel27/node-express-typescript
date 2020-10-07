@@ -1,12 +1,12 @@
 import argon2 from 'argon2'
-import { Service, Inject } from 'typedi'
-import jwt from 'jsonwebtoken'
-import { not } from 'ramda'
-import { Model, Document } from 'mongoose'
 import { randomBytes } from 'crypto'
+import jwt from 'jsonwebtoken'
+import { Document, Model } from 'mongoose'
+import { not } from 'ramda'
+import { Inject, Service } from 'typedi'
 
-import { IUser, IUserInputDTO } from '../interfaces/IUser'
 import config from '../config'
+import { IUser, IUserInputDTO } from '../interfaces/IUser'
 
 @Service()
 export default class AuthService {

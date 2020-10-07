@@ -3,9 +3,8 @@ import express from 'express'
 
 import dependencyInjectorLoader from './dependencyInjector'
 import expressLoader from './express'
-import mongoosesLoader from './mongoose'
-
 import Logger from './logger'
+import mongoosesLoader from './mongoose'
 
 export default async ({ expressApp }: { expressApp: express.Application }) => {
     await mongoosesLoader()

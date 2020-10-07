@@ -1,11 +1,10 @@
-import { Application, Response, NextFunction } from 'express'
 import bodyParser from 'body-parser'
-import cors from 'cors'
-
 import { errors } from 'celebrate'
+import cors from 'cors'
+import { Application, NextFunction, Response } from 'express'
 
-import config from '../config'
 import routes from '../api'
+import config from '../config'
 
 export default ({ app }: { app: Application }) => {
     app.enable('trust proxy')
