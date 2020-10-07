@@ -49,3 +49,9 @@ link to view the api documentation via postman.
 https://documenter.getpostman.com/view/9925707/TVK5dMZ3
 
 ![Alt text](./uploads/readme/api-doc.png?raw=true 'api-doc')
+
+# pre-commit hook and eslint
+
+git commit will fail if there are error found by eslint.
+
+![Alt text](./uploads/readme/pre-commit-eslint.png?raw=true 'api-doc')
