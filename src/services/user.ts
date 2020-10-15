@@ -1,7 +1,6 @@
 import argon2 from 'argon2'
 import { randomBytes } from 'crypto'
 import mongodb from 'mongodb'
-import { Document, Model } from 'mongoose'
 import { not } from 'ramda'
 import { Inject, Service } from 'typedi'
 
@@ -10,7 +9,8 @@ import { IUser, IUserInputDTO as IUserInput } from '../interfaces/IUser'
 @Service()
 export default class UserService {
     constructor(
-        @Inject('userModel') private user: Model<IUser & Document, {}>,
+        // eslint-disable-next-line no-undef
+        @Inject('userModel') private user: Models.UserModel,
         @Inject('logger') private logger: any
     ) {}
 
@@ -41,7 +41,9 @@ export default class UserService {
             const salt = randomBytes(32)
 
             const hashPassword =
-                userInput.password && userInput.password.trim() && (await argon2.hash(userInput.password, { salt }))
+                userInput.password &&
+                userInput.password.trim() &&
+                (await argon2.hash(userInput.password, { salt }))
 
             const user = await this.user.findOneAndUpdate(
                 { _id: id },

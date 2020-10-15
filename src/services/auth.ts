@@ -1,7 +1,6 @@
 import argon2 from 'argon2'
 import { randomBytes } from 'crypto'
 import jwt from 'jsonwebtoken'
-import { Document, Model } from 'mongoose'
 import { not } from 'ramda'
 import { Inject, Service } from 'typedi'
 
@@ -11,7 +10,8 @@ import { IUser, IUserInputDTO } from '../interfaces/IUser'
 @Service()
 export default class AuthService {
     constructor(
-        @Inject('userModel') private user: Model<IUser & Document, {}>,
+        // eslint-disable-next-line no-undef
+        @Inject('userModel') private user: Models.UserModel,
         @Inject('logger') private logger: any
     ) {}
 
