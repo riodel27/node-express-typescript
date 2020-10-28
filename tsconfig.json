@@ -23,11 +23,8 @@
         "baseUrl": ".",
         "paths": {
             "*": ["src/types/*"]
-          },
-        "typeRoots": [
-            "./node_modules/@types",
-            "src/*"
-          ],
+        },
+        "typeRoots": ["./node_modules/@types", "src/*"]
     },
     "exclude": ["node_modules"],
     "include": ["./src/**/*.tsx", "./src/**/*.ts"]
