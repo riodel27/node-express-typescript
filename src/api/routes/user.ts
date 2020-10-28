@@ -23,6 +23,9 @@ export default (app: Router) => {
 
     route.use(middleware.isAuth, middleware.attachCurrentUser)
 
+    // Todo: fix the issue of route pattern.
+    route.get('/search', UserController.searchUser)
+
     route.get('/:id', UserController.getUserById)
     route.put('/:id', UserController.updateUser)
     route.delete('/:id', UserController.deleteUser)

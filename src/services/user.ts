@@ -3,6 +3,7 @@ import { randomBytes } from 'crypto'
 import mongodb from 'mongodb'
 import { not } from 'ramda'
 import { Inject, Service } from 'typedi'
+import { Logger } from 'winston'
 
 import { IUser, IUserInputDTO as IUserInput } from '../interfaces/IUser'
 
@@ -11,7 +12,7 @@ export default class UserService {
     constructor(
         // eslint-disable-next-line no-undef
         @Inject('userModel') private user: Models.UserModel,
-        @Inject('logger') private logger: any
+        @Inject('logger') private logger: Logger
     ) {}
 
     public async FindOneUser(query: { _id: string }): Promise<IUser | null> {
@@ -71,6 +72,11 @@ export default class UserService {
         _id: string
     }): Promise<mongodb.DeleteWriteOpResultObject['result'] & { deletedCount?: number }> {
         const response = await this.user.deleteOne(filter)
+        return response
+    }
+
+    public async Search(query: string) {
+        const response = await this.user.search(query)
         return response
     }
 }

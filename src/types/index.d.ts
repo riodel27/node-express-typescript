@@ -4,6 +4,8 @@ import { IUser } from '../interfaces/IUser'
 
 declare global {
     namespace Models {
-        export type UserModel = Model<IUser & Document>
+        export type UserModel = Model<IUser & Document> & {
+            search(query: string): []
+        }
     }
 }

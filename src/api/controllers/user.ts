@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
+import { pick } from 'ramda'
 import { Container } from 'typedi'
+import { Logger } from 'winston'
 
 import AuthService from '../../services/auth'
 import UserService from '../../services/user'
@@ -84,6 +86,22 @@ export default {
 
             logger.info(`${req.method} ${req.originalUrl} ${202}`)
             return res.status(202).json({ message: 'delete successful' })
+        } catch (error) {
+            return next(error)
+        }
+    },
+    searchUser: async (req: Request, res: Response, next: NextFunction) => {
+        const logger: Logger = Container.get('logger')
+        logger.debug('calling search user endpoint: %o', req.query)
+        try {
+            const { q: query } = pick(['q'], req.query) as { q: string }
+
+            const userServiceInstance = Container.get(UserService)
+
+            const users = await userServiceInstance.Search(query)
+
+            logger.info(`${req.method} ${req.originalUrl} ${200}`)
+            return res.status(200).json({ message: 'users', data: users })
         } catch (error) {
             return next(error)
         }
